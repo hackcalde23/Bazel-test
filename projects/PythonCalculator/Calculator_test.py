@@ -1,9 +1,9 @@
 import unittest
-from projects.PythonCalculator.Calculator import Calculator
+from projects.PythonCalculator.calculator import calculator
 
 class TestSum(unittest.TestCase):
     def test_sum(self):
-        calc = Calculator()
+        calc = calculator()
         self.assertEqual(calc.add(1, 2), 3)
 
 if __name__ == '__main__':

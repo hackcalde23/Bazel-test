@@ -6,9 +6,9 @@ py_library(
 )
 
 py_test(
-       name = "Calculator_test",
-    srcs = ["Calculator_test.py"],
+    name = "calculator_test",
+    srcs = ["calculator_test.py"],
     deps = [
-        "//projects/PythonCalculator:Calculator",
+        "//projects/PythonCalculator:calculator",
     ],
 )
