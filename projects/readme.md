@@ -1,0 +1,1 @@
+list of all projects that will be created using different builds as test
