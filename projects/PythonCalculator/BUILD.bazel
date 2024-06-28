@@ -1,7 +1,9 @@
 py_library(
     name = "calculator",
     srcs = ["calculator.py"],
-    #visibility
+    visibility = [
+        "//visibility:public",
+    ],
 
 )
 
