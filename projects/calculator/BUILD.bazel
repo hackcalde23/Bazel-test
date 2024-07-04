@@ -1,0 +1,18 @@
+#Creation of a library for my calculator code.
+py_library(
+    name = "calculator",
+    srcs = ["calculator.py"],
+    visibility = [
+        "//visibility:public", #This is to make the library public so that it can be used by other projects. In this case we call it from the python-app project and test.
+    ],
+
+)
+
+#Dependency is called like this to test like if this were in a different project but in the same monorepo. 
+py_test(
+    name = "calculator_test",
+    srcs = ["calculator_test.py"],
+    deps = [
+        "//projects/calculator:calculator",
+    ],
+)

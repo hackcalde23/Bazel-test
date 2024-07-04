@@ -6,21 +6,25 @@
 ###############################################################################
 # Update the version "0.0.0" to the release found here:
 # https://github.com/bazelbuild/rules_python/releases.
+
+# Update the version "0.0.0" to the release found here:
+# https://github.com/bazelbuild/rules_python/releases.
 bazel_dep(name = "rules_python", version = "0.33.2")
 
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
-
-pip.parse(
+pip.parse( #This is the function that will parse the requirements_lock.txt file. Helping to add external dependencies.
     hub_name = "pip",
     python_version = "3.11",
-    requirements_lock = "//:requirements_lock.txt",
+    requirements_lock = "//third_party_deps:requirements.txt",
 )
 use_repo(pip, "pip")
 
 
-pip.parse(
-    hub_name = "py_deps",
-    python_version = "3.11",
-    requirements_lock = "//third_party_deps:requirements_lock_3_11.txt",
-)
-use_repo(pip, "py_deps")
+#To use external dependencies from Pypi or pip install
+#pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+#pip.parse(
+#    hub_name = "py_deps",
+#    python_version = "3.11",
+#    requirements_lock = "//third_party_deps:requirements_lock_3_11.txt",
+#)
+#use_repo(pip, "py_deps")

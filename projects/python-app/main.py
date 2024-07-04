@@ -1,7 +1,7 @@
 from flask import Flask
 from random import randint
 
-from projects.PythonCalculator.calculator import Calculator
+from projects.calculator.calculator import Calculator
 
 app = Flask(__name__)
 my_calculator = Calculator()
@@ -14,4 +14,4 @@ def hello():
   return message
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0')
+  app.run()
