@@ -15,7 +15,7 @@ pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse( #This is the function that will parse the requirements_lock.txt file. Helping to add external dependencies.
     hub_name = "pip",
     python_version = "3.11",
-    requirements_lock = "//third_party_deps:requirements.txt",
+    requirements_lock = "//third_party_deps:requirements_lock.txt",
 )
 use_repo(pip, "pip")
 
