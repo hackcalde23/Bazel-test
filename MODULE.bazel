@@ -9,7 +9,10 @@
 
 # Update the version "0.0.0" to the release found here:
 # https://github.com/bazelbuild/rules_python/releases.
-bazel_dep(name = "rules_python", version = "0.33.2")
+bazel_dep(name = "rules_python", version = "0.33.2") #Python rule dependecy call.
+bazel_dep(name = "aspect_bazel_lib", version = "2.7.8") #Aspect's Bazel helpers lirbrary
+bazel_dep(name = "aspect_rules_py", version = "0.7.3") #Aspect's Python rules for python
+bazel_dep(name = "rules_oci", version = "1.7.6")#OCI rules for Bazel - creation of OCI images
 
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse( #This is the function that will parse the requirements_lock.txt file. Helping to add external dependencies.
@@ -28,3 +31,17 @@ use_repo(pip, "pip")
 #    requirements_lock = "//third_party_deps:requirements_lock_3_11.txt",
 #)
 #use_repo(pip, "py_deps")
+
+
+#Use the OCI rule to pull an Ubuntu image. 
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+oci.pull(
+    name = "ubuntu",
+    digest = "sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21",
+    image = "ubuntu",
+    platforms = [ #Specificacion of the plafforms that the image will be executed
+        "linux/arm64/v8",
+        "linux/amd64",
+    ],
+)
+use_repo(oci, "ubuntu")

@@ -1,10 +1,52 @@
-load("@pip//:requirements.bzl", "requirement")
+load("@pip//:requirements.bzl", "requirement") #load external dependency from pip dependencies
+load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup") #Loading the aspect's Bazel helpers library
+load("@aspect_rules_py//py:defs.bzl", "py_binary", "py_library") #Loading the Python aspects to the python-app project.
++load("@rules_oci//oci:defs.bzl", "oci_tarball") #Loading the OCI rules for Bazel specifically the tarball rule.
++load("//utils:py_layer.bzl", "py_oci_image") #Loading the Python layer to create the image.
 
-py_binary(
+#Binary creation for the app project
+py_binary( 
     name = "main",
     srcs = ["main.py"],
     deps = [
         "//projects/calculator:calculator",
         requirement("Flask")
     ]
+)
+
+py_oci_image(
+    name = "image",
+    base = "@ubuntu",
+    binary = "main",
+    entrypoint = ["/projects/python-app/main"],
+)
+
+platform(
+    name = "aarch64_linux",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64",
+    ],
+)
+
+platform(
+    name = "x86_64_linux",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)+
+platform_transition_filegroup(
+    name = "platform_image",
+    srcs = [":image"],
+    target_platform = select({
+        "@platforms//cpu:arm64": ":aarch64_linux",
+        "@platforms//cpu:x86_64": ":x86_64_linux",
+    }),
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":platform_image",
+    repo_tags = ["gcr.io/oci_python_hello_world:latest"],
 )

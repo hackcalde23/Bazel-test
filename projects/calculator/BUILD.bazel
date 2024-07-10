@@ -1,3 +1,5 @@
+load("@aspect_rules_py//py:defs.bzl", "py_library", "py_test") #Loading the Python aspects to the calculadot project.
+
 #Creation of a library for my calculator code.
 py_library(
     name = "calculator",
